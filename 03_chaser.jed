@@ -1,0 +1,163 @@
+
+Note: The first character in the file is 0x02(Start Transmission)*
+N  Comment Lines just have to start with an N, all lines end with a *
+N: This file was based on a file written by Minipro open source software v0.4dev*
+N: The information in this file is compiled from the following sources and experimentation*
+N: JEDEC File Format Specification*
+N:  http://www.pldtool.com/pdf/fmt_jedec.pdf *
+N: Lattice Original GAL16v8 Datasheet *
+N:  http://ee-classes.usc.edu/ee459/library/datasheets/16v8.pdf *
+N: ATMEL/Microchip ATF16v8B Datasheet *
+N:  http://ww1.microchip.com/downloads/en/devicedoc/atmel-0364-pld-atf16v8b-8bq-8bql-datasheet.pdf *
+N: Minipro software gitlab site *
+N:  https://gitlab.com/DavidGriffith/minipro/ *
+N: Peepaw McDonald's video Generic Array Logic Hand Disassembly of the JEDEC File *
+N:  https://www.youtube.com/watch?v=h_d4npbKpdY *
+
+N: FUNCTION *
+N:  NOT IMPLEMENTED *
+N:  This is just a baseline file to build hand GAL configurations from. *
+N   It does almost nothing, having a low output on all the I/O lines regardless of input *
+
+N: (D) sets the device type*
+Device: ATF16V8B*
+
+N  (QP) 20 Pins in the ATF16V8B*
+QP20*
+
+N: (QF) 2194 Fuses in the ATF16V8B*
+QF2194*
+
+N: (F) Default Fuse Setting 0*
+F0*
+
+N: (G) Security Fuse set this to 1 to turn on DRM (Boo!)*
+G0*
+
+N: (L) These are the Actual fuse setting Starting with the address and then the bits in order *
+N:     0=connected, 1=disconnect *
+N: The connected signals in each row are ANDed together.*
+N: Each block of 8 rows is then ORed together to get the input to the output logic specified by the Mode fuses.*
+N: Unused OR gate inputs are usually set to all 0s to hold the unused input low*
+
+N:    Block for PIN 19                *
+N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
+N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
+L0000 00000000000000000000000000000000*
+L0032 00000000000000000000000000000000*
+L0064 00000000000000000000000000000000*
+L0096 00000000000000000000000000000000*
+L0128 00000000000000000000000000000000*
+L0160 00000000000000000000000000000000*
+L0192 00000000000000000000000000000000*
+L0224 00000000000000000000000000000000*
+N:    Block for PIN 18                *
+N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
+N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
+L0256 00000000000000000000000000000000*
+L0288 00000000000000000000000000000000*
+L0320 00000000000000000000000000000000*
+L0352 00000000000000000000000000000000*
+L0384 00000000000000000000000000000000*
+L0416 00000000000000000000000000000000*
+L0448 00000000000000000000000000000000*
+L0480 00000000000000000000000000000000*
+N:    Block for PIN 17                *
+N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
+N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
+L0512 00000000000000000000000000000000*
+L0544 00000000000000000000000000000000*
+L0576 00000000000000000000000000000000*
+L0608 00000000000000000000000000000000*
+L0640 00000000000000000000000000000000*
+L0672 00000000000000000000000000000000*
+L0704 00000000000000000000000000000000*
+L0736 00000000000000000000000000000000*
+N:    Block for PIN 16                *
+N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
+N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
+L0768 00000000000000000000000000000000*
+L0800 00000000000000000000000000000000*
+L0832 00000000000000000000000000000000*
+L0864 00000000000000000000000000000000*
+L0896 00000000000000000000000000000000*
+L0928 00000000000000000000000000000000*
+L0960 00000000000000000000000000000000*
+L0992 00000000000000000000000000000000*
+N:    Block for PIN 15                *
+N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
+N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
+L1024 00000000000000000000000000000000*
+L1056 00000000000000000000000000000000*
+L1088 00000000000000000000000000000000*
+L1120 00000000000000000000000000000000*
+L1152 00000000000000000000000000000000*
+L1184 00000000000000000000000000000000*
+L1216 00000000000000000000000000000000*
+L1248 00000000000000000000000000000000*
+N:    Block for PIN 14                *
+N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
+N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
+L1280 00000000000000000000000000000000*
+L1312 00000000000000000000000000000000*
+L1344 00000000000000000000000000000000*
+L1376 00000000000000000000000000000000*
+L1408 00000000000000000000000000000000*
+L1440 00000000000000000000000000000000*
+L1472 00000000000000000000000000000000*
+L1504 00000000000000000000000000000000*
+N:    Block for PIN 13                *
+N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
+N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
+L1536 00000000000000000000000000000000*
+L1568 00000000000000000000000000000000*
+L1600 00000000000000000000000000000000*
+L1632 00000000000000000000000000000000*
+L1664 00000000000000000000000000000000*
+L1696 00000000000000000000000000000000*
+L1728 00000000000000000000000000000000*
+L1760 00000000000000000000000000000000*
+N:    Block for PIN 12                *
+N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
+N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
+L1792 00000000000000000000000000000000*
+L1824 00000000000000000000000000000000*
+L1856 00000000000000000000000000000000*
+L1888 00000000000000000000000000000000*
+L1920 00000000000000000000000000000000*
+L1952 00000000000000000000000000000000*
+L1984 00000000000000000000000000000000*
+L2016 00000000000000000000000000000000*
+N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
+N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
+
+
+N: XOR set to the the active state of each output (0=low, 1=high)*
+N:    11111111*
+N:    98765432*
+L2048 11111111*
+
+N: Signature*
+L2056 0101010101010101010101010101010101010101010101010101010101010101*
+
+N: AC1 sets whether the output pin is enabled(0-output pin, 1-input pin)*
+N:    11111111*
+N:    98765432*
+L2120 00000000*
+
+N: PTD for each input to the OR's from the fuse lines above this sets if they are (1-enabled, 0-disabled)*
+L2128 1111111111111111111111111111111111111111111111111111111111111111*
+
+N: SYN and AC0 Sets mode of chip*
+N: 00 - Undefined      *
+N: 01 - Register Mode  *
+N: 10 - Simple Mode    *
+N: 11 - Complex Mode   *
+L2192 10*
+
+N: (C) Checksum of the fuse (L & F) data. The minipro tool can ignore this and will actually tell you how to set it if you want to turn off the warning*
+C0e48*
+
+N: The first character in the last line of the file is 0x03(End Transmission) followed by the file checksum lowercase hex*
+N: minipro can ignore this and will actually tell you how to set it if you want to turn off the warning or release a file with an appropriate checksum*
+36ca
