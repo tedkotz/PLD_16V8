@@ -15,9 +15,28 @@ N: Peepaw McDonald's video Generic Array Logic Hand Disassembly of the JEDEC Fil
 N:  https://www.youtube.com/watch?v=h_d4npbKpdY *
 
 N: FUNCTION *
-N:  NOT IMPLEMENTED *
-N:  This is just a baseline file to build hand GAL configurations from. *
-N   It does almost nothing, having a low output on all the I/O lines regardless of input *
+N:  This file implements 8 straight across inverters pin 19 = NOT(pin2), pin18 = NOT(pin3), pin17=NOT(4), etc *
+N:  This uses Simple mode. Has all the outputs activated and set to active high. *
+N:  Each output is then tied only to the inverted version of the associated input *
+N:  For example the L0000 line shows that Pin 19 is only connected to A NOT and A is connected to pin 2 so Pin19 is NOT(pin2) *
+
+N: Simple Mode *
+N: A = Pin 2   *
+N: B = Pin 1   *
+N: C = Pin 3   *
+N: D = Pin 19  *
+N: E = Pin 4   *
+N: F = Pin 18  *
+N: G = Pin 5   *
+N: H = Pin 17  *
+N: I = Pin 6   *
+N: J = Pin 14  *
+N: K = Pin 7   *
+N: L = Pin 13  *
+N: M = Pin 8   *
+N: N = Pin 12  *
+N: O = Pin 9   *
+N: P = Pin 11  *
 
 N: (D) sets the device type*
 Device: ATF16V8B*
@@ -43,7 +62,7 @@ N: Unused OR gate inputs are usually set to all 0s to hold the unused input low*
 N:    Block for PIN 19                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
-L0000 00000000000000000000000000000000*
+L0000 10111111111111111111111111111111*
 L0032 00000000000000000000000000000000*
 L0064 00000000000000000000000000000000*
 L0096 00000000000000000000000000000000*
@@ -54,7 +73,7 @@ L0224 00000000000000000000000000000000*
 N:    Block for PIN 18                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
-L0256 00000000000000000000000000000000*
+L0256 11111011111111111111111111111111*
 L0288 00000000000000000000000000000000*
 L0320 00000000000000000000000000000000*
 L0352 00000000000000000000000000000000*
@@ -65,7 +84,7 @@ L0480 00000000000000000000000000000000*
 N:    Block for PIN 17                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
-L0512 00000000000000000000000000000000*
+L0512 11111111101111111111111111111111*
 L0544 00000000000000000000000000000000*
 L0576 00000000000000000000000000000000*
 L0608 00000000000000000000000000000000*
@@ -76,7 +95,7 @@ L0736 00000000000000000000000000000000*
 N:    Block for PIN 16                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
-L0768 00000000000000000000000000000000*
+L0768 11111111111110111111111111111111*
 L0800 00000000000000000000000000000000*
 L0832 00000000000000000000000000000000*
 L0864 00000000000000000000000000000000*
@@ -87,7 +106,7 @@ L0992 00000000000000000000000000000000*
 N:    Block for PIN 15                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
-L1024 00000000000000000000000000000000*
+L1024 11111111111111111011111111111111*
 L1056 00000000000000000000000000000000*
 L1088 00000000000000000000000000000000*
 L1120 00000000000000000000000000000000*
@@ -98,7 +117,7 @@ L1248 00000000000000000000000000000000*
 N:    Block for PIN 14                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
-L1280 00000000000000000000000000000000*
+L1280 11111111111111111111101111111111*
 L1312 00000000000000000000000000000000*
 L1344 00000000000000000000000000000000*
 L1376 00000000000000000000000000000000*
@@ -109,7 +128,7 @@ L1504 00000000000000000000000000000000*
 N:    Block for PIN 13                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
-L1536 00000000000000000000000000000000*
+L1536 11111111111111111111111110111111*
 L1568 00000000000000000000000000000000*
 L1600 00000000000000000000000000000000*
 L1632 00000000000000000000000000000000*
@@ -120,7 +139,7 @@ L1760 00000000000000000000000000000000*
 N:    Block for PIN 12                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
-L1792 00000000000000000000000000000000*
+L1792 11111111111111111111111111111011*
 L1824 00000000000000000000000000000000*
 L1856 00000000000000000000000000000000*
 L1888 00000000000000000000000000000000*
@@ -156,8 +175,8 @@ N: 11 - Complex Mode   *
 L2192 10*
 
 N: (C) Checksum of the fuse (L & F) data. The minipro tool can ignore this and will actually tell you how to set it if you want to turn off the warning*
-C0e48*
+C2da0*
 
 N: The first character in the last line of the file is 0x03(End Transmission) followed by the file checksum lowercase hex*
 N: minipro can ignore this and will actually tell you how to set it if you want to turn off the warning or release a file with an appropriate checksum*
-36ca
+c386
