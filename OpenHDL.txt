@@ -1,0 +1,101 @@
+
+Attributes:
+ C like bit manipulation syntax (&|^~)
+ CPP macros
+ generates jedec files
+ pin blocks? 
+
+
+
+
+output <symbol> [<pin>]
+input <symbol> [<pin>]
+signal <symbol>
+feedback <symbol> (Breaks recursive loops, each recusive definition must have one feedback, can a compolier determine minimum number of feedbacks)
+
+
+
+
+
+A = B
+
+A is connected to B, if A is a output
+otherwise
+A is an alias for (B).
+
+F(X, Y) = A | B;
+
+
+
+A = B | C
+
+A
+
+
+
+Q = ~(S & Q_B);
+Q_B = ~(R & Q);
+
+
+
+NOT
+ NOT(A)
+ ~A
+ -A
+ /A
+
+AND
+ AND(A,B)
+ A & B
+ A && B
+ A * B
+ (A)(B)
+ 
+OR
+ OR(A,B)
+ A | B
+ A || B
+ A + B
+
+XOR
+ XOR(A,B)
+ A^B
+ (A&~B)|(~A&B)
+
+
+Equations -> {Compile} -> simplified_equation -> fuses
+
+Compile
+[Eval Equation -> Truth table]
+No removal of redundancy
+Only works if there are no more than 8 true or false states.
+
+[Eval Equation -> Multi-dimensional K-map (16 dimensions for ATF16V8)]
+
+
+
+[Boolean Algebra based simplifier]
+~(A&B)=~A|~B
+~(A|B)=~A&~B
+0=A&~A
+1=A|~A
+A=1&A
+A=0&A
+0=0&A
+1=1|A
+A=~~A
+
+
+
+
+<SIMPLE_EQ> := <OUT_SYMBOL> '=' <SUM> ';'
+<SUM> := <PROD> | <SUM> '|' <PROD>
+<PROD> := <TERM> | <PROD> '&' <TERM>
+<TERM> := <IN_SYMBOL> | '~' <IN_SYMBOL>
+ 
+
+
+
+More logic circuits
+5 Bit Adder with carry in and out.
+4 Bit multiplier (4x4=>8)
