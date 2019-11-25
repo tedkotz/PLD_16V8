@@ -43,6 +43,7 @@ NOT
  ~A
  -A
  /A
+ !A
 
 AND
  AND(A,B)
@@ -62,7 +63,27 @@ XOR
  A^B
  (A&~B)|(~A&B)
 
+ 
+A == 0
+ NOT(A)
+ 
+A == 1
+  (A)
+  
+A != 0
+  (A)
 
+A != 1
+  (A)
+  
+A == B
+ ~(XOR(A,B))
+ (A&B)|(~A&~B)
+ 
+A != B
+  XOR(A,B)
+
+  
 Equations -> {Compile} -> simplified_equation -> fuses
 
 Compile
