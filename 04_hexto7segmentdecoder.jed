@@ -37,7 +37,7 @@ N: N = Pin 12  *
 N: O = Pin 9   *
 N: P = Pin 11  *
 
-Normal pinout for a 7-segment display*
+Normal segment names for a 7-segment display*
 N:  _   a  *
 N: |_| fgb *
 N: |_| edc *
@@ -57,7 +57,7 @@ N: g =               0010 | 0011 | 0100 | 0101 | 0110 |        1000 | 1001 | 101
 
 N: Input pins 1(MSB) to 4(LSB) will give us a input pattern of BACE *
 N: Though there are more than 8 input combinations that make each output active we could use negative logic to have less than eight combination to bring each signal low. *
-N: A generally more efficient approach though is to use Kaurnaugh Maps[https://en.wikipedia.org/wiki/Karnaugh_map] to simplify the equations. As follows *
+N: A generally more efficient approach though is to use Kaurnaugh Maps[https://en.wikipedia.org/wiki/Karnaugh_map] to simplify the equations. An example for a follows: *
 
 N: a: BA\CE             *
 N:       \ 00 01 11 10  *
@@ -100,7 +100,7 @@ N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
 L0000 00000000000000000000000000000000*
 L0032 00000000000000000000000000000000*
-N: B/E                                * 
+N: B/E                                *
 L0064 11011111101111111111111111111111*
 N: AC                                 *
 L0096 01110111111111111111111111111111*
@@ -181,9 +181,9 @@ N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
 L1280 00000000000000000000000000000000*
 L1312 00000000000000000000000000000000*
 L1344 00000000000000000000000000000000*
-N: B/A                                * 
+N: B/A                                *
 L1376 10011111111111111111111111111111*
-N: /C/E                               * 
+N: /C/E                               *
 L1408 11111011101111111111111111111111*
 N: A/E                                *
 L1440 01111111101111111111111111111111*
@@ -246,8 +246,8 @@ N: 11 - Complex Mode   *
 L2192 10*
 
 N: (C) Checksum of the fuse (L & F) data. The minipro tool can ignore this and will actually tell you how to set it if you want to turn off the warning*
-C0000*
+C970f*
 
 N: The first character in the last line of the file is 0x03(End Transmission) followed by the file checksum lowercase hex*
 N: minipro can ignore this and will actually tell you how to set it if you want to turn off the warning or release a file with an appropriate checksum*
-0000
+4f0a
