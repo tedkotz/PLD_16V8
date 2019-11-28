@@ -15,9 +15,60 @@ N: Peepaw McDonald's video Generic Array Logic Hand Disassembly of the JEDEC Fil
 N:  https://www.youtube.com/watch?v=h_d4npbKpdY *
 
 N: FUNCTION *
-N:  NOT IMPLEMENTED *
-N:  This is just a baseline file to build hand GAL configurations from. *
-N   It does almost nothing, having a low output on all the I/O lines regardless of input *
+N:  This file uses the example of a simple chser light type setup to show how register mode can be  *
+N:  used to build a simple state machine. All 8 outputs are used and buffer in flip flops. The only *
+N:  input is a single clock. and the state transitions are very simple *
+
+N:           +-------+                *
+N:  Clock   -| 1   20|- Vcc           *
+N:  UNUSED  -| 2   19|- Output7 (MSB) *
+N:  UNUSED  -| 3   18|- Output6       *
+N:  UNUSED  -| 4   17|- Output5       *
+N:  UNUSED  -| 5   16|- Output4       *
+N:  UNUSED  -| 6   15|- Output3       *
+N:  UNUSED  -| 7   14|- Output2       *
+N:  UNUSED  -| 8   13|- Output1       *
+N:  UNUSED  -| 9   12|- Output0 (LSB) *
+N:  GND     -|10   11|- /OE           *
+N:           +-------+                *
+
+N: | Prev State | Next State | *
+N: |------------|------------| *
+N: | 0000 0001  | 0000 0010  | *
+N: | 0000 0010  | 0000 0100  | *
+N: | 0000 0100  | 0000 1000  | *
+N: | 0000 1000  | 0001 0000  | *
+N: | 0001 0000  | 0010 0000  | *
+N: | 0010 0000  | 0100 0000  | *
+N: | 0100 0000  | 1000 0000  | *
+N: | 1000 0000  | 0000 0001  | *
+N: | Default    | 0000 0001  | *
+
+N: This state machine requires every line to only go high on a single possible input state. The exception being the LSB line which goes high in all but 7 possible states. That is less than the 8 line limit, so this will fit in the part, though the LSB (pin12) will have to be negative logic so we set it to active low. *
+
+N: Register Mode *
+N: A = Pin 2     *
+N: B = Pin 19    *
+N: C = Pin 3     *
+N: D = Pin 18    *
+N: E = Pin 4     *
+N: F = Pin 17    *
+N: G = Pin 5     *
+N: H = Pin 16    *
+N: I = Pin 6     *
+N: J = Pin 15    *
+N: K = Pin 7     *
+N: L = Pin 14    *
+N: M = Pin 8     *
+N: N = Pin 13    *
+N: O = Pin 9     *
+N: P = Pin 12    *
+N: Pin1 : Clock  *
+N: Pin11: /OE    *
+
+N: Because the device is using register mode pin11 must be tied low to enable the output. *
+
+
 
 N: (D) sets the device type*
 Device: ATF16V8B*
@@ -50,7 +101,7 @@ L0096 00000000000000000000000000000000*
 L0128 00000000000000000000000000000000*
 L0160 00000000000000000000000000000000*
 L0192 00000000000000000000000000000000*
-L0224 00000000000000000000000000000000*
+L0224 11101101111011101110111011101110*
 N:    Block for PIN 18                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -61,7 +112,7 @@ L0352 00000000000000000000000000000000*
 L0384 00000000000000000000000000000000*
 L0416 00000000000000000000000000000000*
 L0448 00000000000000000000000000000000*
-L0480 00000000000000000000000000000000*
+L0480 11101110110111101110111011101110*
 N:    Block for PIN 17                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -72,7 +123,7 @@ L0608 00000000000000000000000000000000*
 L0640 00000000000000000000000000000000*
 L0672 00000000000000000000000000000000*
 L0704 00000000000000000000000000000000*
-L0736 00000000000000000000000000000000*
+L0736 11101110111011011110111011101110*
 N:    Block for PIN 16                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -83,7 +134,7 @@ L0864 00000000000000000000000000000000*
 L0896 00000000000000000000000000000000*
 L0928 00000000000000000000000000000000*
 L0960 00000000000000000000000000000000*
-L0992 00000000000000000000000000000000*
+L0992 11101110111011101101111011101110*
 N:    Block for PIN 15                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -94,7 +145,7 @@ L1120 00000000000000000000000000000000*
 L1152 00000000000000000000000000000000*
 L1184 00000000000000000000000000000000*
 L1216 00000000000000000000000000000000*
-L1248 00000000000000000000000000000000*
+L1248 11101110111011101110110111101110*
 N:    Block for PIN 14                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -105,7 +156,7 @@ L1376 00000000000000000000000000000000*
 L1408 00000000000000000000000000000000*
 L1440 00000000000000000000000000000000*
 L1472 00000000000000000000000000000000*
-L1504 00000000000000000000000000000000*
+L1504 11101110111011101110111011011110*
 N:    Block for PIN 13                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -116,18 +167,18 @@ L1632 00000000000000000000000000000000*
 L1664 00000000000000000000000000000000*
 L1696 00000000000000000000000000000000*
 L1728 00000000000000000000000000000000*
-L1760 00000000000000000000000000000000*
+L1760 11101110111011101110111011101101*
 N:    Block for PIN 12                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
 L1792 00000000000000000000000000000000*
-L1824 00000000000000000000000000000000*
-L1856 00000000000000000000000000000000*
-L1888 00000000000000000000000000000000*
-L1920 00000000000000000000000000000000*
-L1952 00000000000000000000000000000000*
-L1984 00000000000000000000000000000000*
-L2016 00000000000000000000000000000000*
+L1824 11101110111011101110111011101101*
+L1856 11101110111011101110111011011110*
+L1888 11101110111011101110110111101110*
+L1920 11101110111011101101111011101110*
+L1952 11101110111011011110111011101110*
+L1984 11101110110111101110111011101110*
+L2016 11101101111011101110111011101110*
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
 
@@ -135,12 +186,14 @@ N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
 N: XOR set to the the active state of each output (0=low, 1=high)*
 N:    11111111*
 N:    98765432*
-L2048 11111111*
+L2048 11111110*
 
 N: Signature*
 L2056 0101010101010101010101010101010101010101010101010101010101010101*
 
-N: AC1 sets whether the output pin is enabled(0-output pin, 1-input pin)*
+N: AC1 sets whether the output pin is registered(0-output pin, 1-input pin)*
+N: In register mode, registered outputs feedback the output whether enabled or not *
+N:                   combinatorial outputs use the first logic line to control OE per pin *
 N:    11111111*
 N:    98765432*
 L2120 00000000*
@@ -153,11 +206,11 @@ N: 00 - Undefined      *
 N: 01 - Register Mode  *
 N: 10 - Simple Mode    *
 N: 11 - Complex Mode   *
-L2192 10*
+L2192 01*
 
 N: (C) Checksum of the fuse (L & F) data. The minipro tool can ignore this and will actually tell you how to set it if you want to turn off the warning*
-C0e48*
+C29e9*
 
 N: The first character in the last line of the file is 0x03(End Transmission) followed by the file checksum lowercase hex*
 N: minipro can ignore this and will actually tell you how to set it if you want to turn off the warning or release a file with an appropriate checksum*
-36ca
+2c76
