@@ -1,11 +1,23 @@
-
 Attributes:
  C like bit manipulation syntax (&|^~)
- CPP macros
- generates jedec files
- pin blocks? 
-
-
+ CPP macros - why not just use the actual C preprocesor
+ pin blocks?
+ generates:
+  jedec files (for GALs)
+  bin files (for EEPROMs)
+  datasheet (simple ascii art pin diagram for reference with other compilation notes)
+ Supported devices:
+  EEPROMs (simple combinitorial logic only, or use external feedback)
+   28C___
+  GALs
+   16V8 (particularly ATF16V8B)
+   20V8 (particularly ATF20V8B)
+   22V10 (possibly ATF22V10C)
+  CPLDs
+   ATF750C??
+   ATF2500C??
+  FPGAs
+   ??
 
 
 output <symbol> [<pin>]
@@ -51,7 +63,7 @@ AND
  A && B
  A * B
  (A)(B)
- 
+
 OR
  OR(A,B)
  A | B
@@ -63,27 +75,27 @@ XOR
  A^B
  (A&~B)|(~A&B)
 
- 
+
 A == 0
  NOT(A)
- 
+
 A == 1
   (A)
-  
+
 A != 0
   (A)
 
 A != 1
   (A)
-  
+
 A == B
  ~(XOR(A,B))
  (A&B)|(~A&~B)
- 
+
 A != B
   XOR(A,B)
 
-  
+
 Equations -> {Compile} -> simplified_equation -> fuses
 
 Compile
@@ -113,7 +125,7 @@ A=~~A
 <SUM> := <PROD> | <SUM> '|' <PROD>
 <PROD> := <TERM> | <PROD> '&' <TERM>
 <TERM> := <IN_SYMBOL> | '~' <IN_SYMBOL>
- 
+
 
 
 
