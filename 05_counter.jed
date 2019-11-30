@@ -22,7 +22,7 @@ N:  state. However each output only has 8 terms so there needs to be some optimi
 
 N:           +-------+                *
 N:  Clock   -| 1   20|- Vcc           *
-N:  UNUSED  -| 2   19|- Output7 (MSB) *
+N:  /RESET  -| 2   19|- Output7 (MSB) *
 N:  UNUSED  -| 3   18|- Output6       *
 N:  UNUSED  -| 4   17|- Output5       *
 N:  UNUSED  -| 5   16|- Output4       *
@@ -65,56 +65,67 @@ N: P = Pin 12    *
 N: Pin1 : Clock  *
 N: Pin11: /OE    *
 
-N: Output0 (O0 or P) will toggle every clock so it is easy:
- O0 = /P
+N: Output0 (O0 or P) will toggle every clock so it is easy:                    *
+N: O0 = /P                                                                     *
 
- O1 (aka N) needs to toggle every time O0 goes low.
- | 00 | 01 |
- | 01 | 10 |
- | 10 | 11 |
- | 11 | 00 |
- So for this we can just go the easy way and look what previous states cause the second bit to be high (01, 10) and encode both of them:
- O1 = /NP + N/P
+N: O1 (aka N) needs to toggle every time O0 goes low.                          *
+N: | 00 | 01 |                                                                 *
+N: | 01 | 10 |                                                                 *
+N: | 10 | 11 |                                                                 *
+N: | 11 | 00 |                                                                 *
+N: So for this we can just go the easy way and look what previous states cause *
+N:  the second bit to be high (01, 10) and encode both of them:                *
+N: O1 = /NP + N/P                                                              *
 
- 02 (aka L) is next lets take a look at its cycle:
- | 000 | 001 |
- | 001 | 010 |
- | 010 | 011 |
- | 011 | 100 |
- | 100 | 101 |
- | 101 | 110 |
- | 110 | 111 |
- | 111 | 000 |
- There is a enough logic space to directly encoded the previous states where 02 is 1:
- 02 = /LNP + L/N/P + L/NP + LP/N
+N: 02 (aka L) is next lets take a look at its cycle:                           *
+N: | 000 | 001 |                                                               *
+N: | 001 | 010 |                                                               *
+N: | 010 | 011 |                                                               *
+N: | 011 | 100 |                                                               *
+N: | 100 | 101 |                                                               *
+N: | 101 | 110 |                                                               *
+N: | 110 | 111 |                                                               *
+N: | 111 | 000 |                                                               *
+N: There is a enough logic to encoded the previous states where O2 is high:    *
+N: 02 = /LNP + L/N/P + L/NP + LP/N                                             *
+N:                                                                             *
+N: However this can be reduced, as this Kaurnaugh Map shows:                   *
+N:  L\NP                                                                       *
+N:    \ 00 01 11 10                                                            *
+N:    0|0 |0 |1 |0 |                                                           *
+N:    1|1 |1 |0 |1 |                                                           *
+N:                                                                             *
+N: 02 = /LNP + L/N + L/P                                                       *
+N:                                                                             *
+N: The key from this statement is that the pattern reveals how the reduction   *
+N:  can be generalized.                                                        *
+N:  A bit will be high if:                                                     *
+N:   1) it was low and all less significant bits are high                      *
+N:   2) or it was high and at least one less significant bit was low           *
 
- However this can be reduced, as this Kaurnaugh Map shows:
-  L\NP
-    \ 00 01 11 10
-    0|0 |0 |1 |0 |
-    1|1 |1 |0 |1 |
+N: Using this pattern we can fill in the rest of the equations.                *
+N: 03 = /JLNP     + J/L + J/N + J/P                                            *
+N: 04 = /HJLNP    + H/J + H/L + H/N + H/P                                      *
+N: 05 = /FHJLNP   + F/H + F/J + F/L + F/N + F/P                                *
+N: 06 = /DFHJLNP  + D/F + D/H + D/J + D/L + D/N + D/P                          *
+N: 07 = /BDFHJLNP + B/D + B/F + B/H + B/J + B/L + B/N + B/P                    *
 
- 02 = /LNP + L/N + L/P
+N: 07 only has 8 terms so it will fit in the 16V8. There is actually enough    *
+N: logic space to add one more feature a reset pin that will clear the counter *
+N: bits.                                                                       *
 
- The key from this statement though is that it shows the pattern that reveals how this can be generalized.
-  A bit will be high if:
-   1) it was low and all less significant bits are high
-   2) or it was high and at least one less significant bit was low
+N: In this file it is implemented using active low. The 16V8 floats inputs     *
+N: high, so the reset will be disabled. It is best practice to explicitly tie  *
+N: the signal high though.                                                     *
+N: This design uses pin 2 (aka A) to do this, but it could fairly easily be    *
+N: changed to one of the other unused inputs or made active high if needed.    *
 
- Using this pattern we can fill in the rest of the equations.
- 03 = /JLNP     + J/L + J/N + J/P
- 04 = /HJLNP    + H/J + H/L + H/N + H/P
- 05 = /FHJLNP   + F/H + F/J + F/L + F/N + F/P
- 06 = /DFHJLNP  + D/F + D/H + D/J + D/L + D/N + D/P
- 07 = /BDFHJLNP + B/D + B/F + B/H + B/J + B/L + B/N + B/P
+N: The reset is actually implemented by making every term rely on pin2 (A)     *
+N: being high. This modifies every AND term, but doesn't OR in anything new    *
+N: preventing an increase in need for logic resources.                         *
 
- 07 only has 8 terms so it will fit in the 16V8.
-
-*
-
-N: Because the device is using register mode pin11 must be tied low to enable the output. *
-
-
+N: Because the device is using register mode pin11 must be tied low to enable  *
+N: the output.*
 
 N: (D) sets the device type*
 Device: ATF16V8B*
@@ -137,55 +148,55 @@ N: The connected signals in each row are ANDed together.*
 N: Each block of 8 rows is then ORed together to get the input to the output logic specified by the Mode fuses.*
 N: Unused OR gate inputs are usually set to all 0s to hold the unused input low*
 
-N:  07 = /BDFHJLNP + B/D + B/F + B/H + B/J + B/L + B/N + B/P *
+N:  07 = A/BDFHJLNP + AB/D + AB/F + AB/H + AB/J + AB/L + AB/N + AB/P *
 N:    Block for PIN 19                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
-L0000 11101101110111011101110111011101*
-L0032 11011110111111111111111111111111*
-L0064 11011111111011111111111111111111*
-L0096 11011111111111101111111111111111*
-L0128 11011111111111111110111111111111*
-L0160 11011111111111111111111011111111*
-L0192 11011111111111111111111111101111*
-L0224 11011111111111111111111111111110*
-N:  06 = /DFHJLNP  + D/F + D/H + D/J + D/L + D/N + D/P       *
+L0000 01101101110111011101110111011101*
+L0032 01011110111111111111111111111111*
+L0064 01011111111011111111111111111111*
+L0096 01011111111111101111111111111111*
+L0128 01011111111111111110111111111111*
+L0160 01011111111111111111111011111111*
+L0192 01011111111111111111111111101111*
+L0224 01011111111111111111111111111110*
+N:  06 = A/DFHJLNP  + AD/F + AD/H + AD/J + AD/L + AD/N + AD/P *
 N:    Block for PIN 18                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
 L0256 00000000000000000000000000000000*
-L0288 11111110110111011101110111011101*
-L0320 11111101111011111111111111111111*
-L0352 11111101111111101111111111111111*
-L0384 11111101111111111110111111111111*
-L0416 11111101111111111111111011111111*
-L0448 11111101111111111111111111101111*
-L0480 11111101111111111111111111111110*
-N:  05 = /FHJLNP   + F/H + F/J + F/L + F/N + F/P             *
+L0288 01111110110111011101110111011101*
+L0320 01111101111011111111111111111111*
+L0352 01111101111111101111111111111111*
+L0384 01111101111111111110111111111111*
+L0416 01111101111111111111111011111111*
+L0448 01111101111111111111111111101111*
+L0480 01111101111111111111111111111110*
+N:  05 = A/FHJLNP   + AF/H + AF/J + AF/L + AF/N + AF/P *
 N:    Block for PIN 17                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
 L0512 00000000000000000000000000000000*
 L0544 00000000000000000000000000000000*
-L0576 11111111111011011101110111011101*
-L0608 11111111110111101111111111111111*
-L0640 11111111110111111110111111111111*
-L0672 11111111110111111111111011111111*
-L0704 11111111110111111111111111101111*
-L0736 11111111110111111111111111111110*
-N:  04 = /HJLNP    + H/J + H/L + H/N + H/P                   *
+L0576 01111111111011011101110111011101*
+L0608 01111111110111101111111111111111*
+L0640 01111111110111111110111111111111*
+L0672 01111111110111111111111011111111*
+L0704 01111111110111111111111111101111*
+L0736 01111111110111111111111111111110*
+N:  04 = A/HJLNP    + AH/J + AH/L + AH/N + AH/P *
 N:    Block for PIN 16                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
 L0768 00000000000000000000000000000000*
 L0800 00000000000000000000000000000000*
 L0832 00000000000000000000000000000000*
-L0864 11111111111111101101110111011101*
-L0896 11111111111111011110111111111111*
-L0928 11111111111111011111111011111111*
-L0960 11111111111111011111111111101111*
-L0992 11111111111111011111111111111110*
-N:  03 = /JLNP     + J/L + J/N + J/P                         *
+L0864 01111111111111101101110111011101*
+L0896 01111111111111011110111111111111*
+L0928 01111111111111011111111011111111*
+L0960 01111111111111011111111111101111*
+L0992 01111111111111011111111111111110*
+N:  03 = A/JLNP     + AJ/L + AJ/N + AJ/P *
 N:    Block for PIN 15                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -193,11 +204,11 @@ L1024 00000000000000000000000000000000*
 L1056 00000000000000000000000000000000*
 L1088 00000000000000000000000000000000*
 L1120 00000000000000000000000000000000*
-L1152 11111111111111111110110111011101*
-L1184 11111111111111111101111011111111*
-L1216 11111111111111111101111111101111*
-L1248 11111111111111111101111111111110*
-N:  02 = /LNP + L/N + L/P                                    *
+L1152 01111111111111111110110111011101*
+L1184 01111111111111111101111011111111*
+L1216 01111111111111111101111111101111*
+L1248 01111111111111111101111111111110*
+N:  02 = A/LNP + AL/N + AL/P          *
 N:    Block for PIN 14                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -206,10 +217,10 @@ L1312 00000000000000000000000000000000*
 L1344 00000000000000000000000000000000*
 L1376 00000000000000000000000000000000*
 L1408 00000000000000000000000000000000*
-L1440 11111111111111111111111011011101*
-L1472 11111111111111111111110111101111*
-L1504 11111111111111111111110111111110*
-N:  O1 = /NP + N/P                                           *
+L1440 01111111111111111111111011011101*
+L1472 01111111111111111111110111101111*
+L1504 01111111111111111111110111111110*
+N:  O1 = A/NP + AN/P                  *
 N:    Block for PIN 13                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -219,9 +230,9 @@ L1600 00000000000000000000000000000000*
 L1632 00000000000000000000000000000000*
 L1664 00000000000000000000000000000000*
 L1696 00000000000000000000000000000000*
-L1728 11111111111111111111111111101101*
-L1760 11111111111111111111111111011110*
-N:  O0 = /P                                                  *
+L1728 01111111111111111111111111101101*
+L1760 01111111111111111111111111011110*
+N:  O0 = A/P                          *
 N:    Block for PIN 12                *
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
@@ -232,7 +243,7 @@ L1888 00000000000000000000000000000000*
 L1920 00000000000000000000000000000000*
 L1952 00000000000000000000000000000000*
 L1984 00000000000000000000000000000000*
-L2016 11111111111111111111111111111110*
+L2016 01111111111111111111111111111110*
 N:     _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _*
 N:    AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP*
 
@@ -263,8 +274,8 @@ N: 11 - Complex Mode   *
 L2192 01*
 
 N: (C) Checksum of the fuse (L & F) data. The minipro tool can ignore this and will actually tell you how to set it if you want to turn off the warning*
-C8bc9*
+C8ba5*
 
 N: The first character in the last line of the file is 0x03(End Transmission) followed by the file checksum lowercase hex*
 N: minipro can ignore this and will actually tell you how to set it if you want to turn off the warning or release a file with an appropriate checksum*
-d57f
+cb94
