@@ -16,8 +16,8 @@ N:  https://www.youtube.com/watch?v=h_d4npbKpdY *
 
 N: FUNCTION *
 N:  This file uses the register mode to show how a simple binary counter could be implemented. *
-N:  If this were independed logic pieces the solution might be to  feed outputs in to the clock to built a ripple counter. *
-N:  The 16V8 does not allow modifying the source of the clock so this ciruit must look to the transition of the full 8-bit *
+N:  If this were independent logic pieces the solution might be to feed outputs in to the clock to built a ripple counter. *
+N:  The 16V8 does not allow modifying the source of the clock so this circuit must look to the transition of the full 8-bit *
 N:  state. However each output only has 8 terms so there needs to be some optimizations to make it fit.                    *
 
 N:           +-------+                *

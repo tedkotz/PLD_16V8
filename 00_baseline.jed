@@ -18,6 +18,40 @@ N: FUNCTION *
 N:  This is just a baseline file to build hand GAL configurations from. *
 N   It does almost nothing, having a low output on all the I/O lines regardless of input *
 
+N:           +-------+                *
+N:  IN|CLK  -| 1   20|- Vcc           *
+N:   INPUT  -| 2   19|- IN|OUT        *
+N:   INPUT  -| 3   18|- IN|OUT        *
+N:   INPUT  -| 4   17|- IN|OUT        *
+N:   INPUT  -| 5   16|- IN|OUT        *
+N:   INPUT  -| 6   15|- IN|OUT        *
+N:   INPUT  -| 7   14|- IN|OUT        *
+N:   INPUT  -| 8   13|- IN|OUT        *
+N:   INPUT  -| 9   12|- IN|OUT        *
+N:     GND  -|10   11|- IN|/OE        *
+N:           +-------+                *
+
+N: Simple Mode | Register Mode | Complex Mode  *
+N:-------------|---------------|---------------*
+N: A = Pin 2   | A = Pin 2     | A = Pin 2     *
+N: B = Pin 1   | B = Pin 19    | B = Pin 1     *
+N: C = Pin 3   | C = Pin 3     | C = Pin 3     *
+N: D = Pin 19  | D = Pin 18    | D = Pin 18    *
+N: E = Pin 4   | E = Pin 4     | E = Pin 4     *
+N: F = Pin 18  | F = Pin 17    | F = Pin 17    *
+N: G = Pin 5   | G = Pin 5     | G = Pin 5     *
+N: H = Pin 17  | H = Pin 16    | H = Pin 16    *
+N: I = Pin 6   | I = Pin 6     | I = Pin 6     *
+N: J = Pin 14  | J = Pin 15    | J = Pin 15    *
+N: K = Pin 7   | K = Pin 7     | K = Pin 7     *
+N: L = Pin 13  | L = Pin 14    | L = Pin 14    *
+N: M = Pin 8   | M = Pin 8     | M = Pin 8     *
+N: N = Pin 12  | N = Pin 13    | N = Pin 13    *
+N: O = Pin 9   | O = Pin 9     | O = Pin 9     *
+N: P = Pin 11  | P = Pin 12    | P = Pin 11    *
+N:             | Pin1 : Clock  |               *
+N:             | Pin11: /OE    |               *
+
 N: (D) sets the device type*
 Device: ATF16V8B*
 
